@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" ng-app="app">
 <head>
     <title>Pop goes the world</title>
     <meta charset="UTF-8">
@@ -7,44 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-<div class="container mt-3">
-    <div>
-        <h2 class="float-left">Listado de latencias</h2>
-        <div class="float-right">
-
-            <a href="./admin/" class="btn btn-primary">
-            {% if user.is_authenticated %}
-                Administración
-            {% else %}
-                Ingresar
-            {% endif %}
-            </a>
-
-            {% if user.is_authenticated %}
+    <div class="container mt-3" ng-controller="MainController as vm">
+        <div>
+            <h2 class="float-left">Listado de latencias</h2>
+            <div class="float-right">
+                <a href="./admin/" class="btn btn-primary">Administración</a>
                 <a href="./admin/logout/" class="btn btn-primary">Salir</a>
-            {% endif %}
+            </div>
+            <br class="clearfix">
         </div>
-        <br class="clearfix">
+        <table class="table mt-4 table-hover table-sm">
+            <thead class="thead-default">
+            <tr><th>Server</th><th>Descripción</th><th>Latencia</th><th>Último scan</th></tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="sv in vm.entries">
+                    <td>{{ sv.server.host }}</td>
+                    <td>{{ sv.server.description }}</td>
+                    <td>{{ sv.latency }} ms</td>
+                    <td>{{ sv.datetime }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <footer class="text-center text-muted">
+            Por Jonathan Gutiérrez (c) 2017
+        </footer>
     </div>
-    <table class="table mt-4 table-hover table-sm">
-        <thead class="thead-default">
-        <tr><th>Server</th><th>Descripción</th><th>Latencia</th><th>Último scan</th></tr>
-        </thead>
-        <tbody>
-        {% for entry in entries %}
-            <tr>
-                <td>{{ entry.server.host }}</td>
-                <td>{{ entry.server.description }}</td>
-                <td>{{ entry.latency }} ms</td>
-                <td>{{ entry.datetime }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <hr>
-    <footer class="text-center text-muted">
-        Por Jonathan Gutiérrez (c) 2017
-    </footer>
-</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.js"></script>
+    <script src="static/app.js"></script>
 </body>
 </html>
